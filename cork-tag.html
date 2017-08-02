@@ -62,18 +62,23 @@
 
       constructor() {
         super();
-        this._setBorderWidth = this._setBorderWidth.bind(this);
+        this._setBorderWidth = this.resize.bind(this);
       }
 
       connectedCallback() {
         super.connectedCallback();
-        window.addEventListener('resize', this._setBorderWidth);
+        window.addEventListener('resize', this.resize);
         this._setBorderWidth();
       }
 
       disconnectedCallback() {
         super.disconnectedCallback();
-        window.removeEventListener('resize', this._setBorderWidth);
+        window.removeEventListener('resize', this.resize);
+      }
+
+      // needs to be called if made visible
+      resize() {
+        this._setBorderWidth();
       }
 
       // update triangle size
