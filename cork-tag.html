@@ -1,0 +1,85 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="cork-tag">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .arrow-right {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 50px 0 50px 86.6px;
+        border-color: transparent transparent transparent var(--cork-tag-color, var(--secondary-accent-color, '#ccc'));
+      }
+
+      #label {
+        padding: 5px;
+        background-color: var(--cork-tag-color, var(--secondary-accent-color, '#ccc'));
+      }
+
+      .arrow-left {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 50px 86.6px 50px 0;
+        border-color: transparent var(--cork-tag-color, var(--secondary-accent-color, '#ccc')) transparent transparent;
+      }
+
+    </style>
+    
+    <div style="display:flex">
+      <div hidden$="[[rightArrow]]" id="arrowLeft"></div>
+      <div id="label"><slot></slot></div>
+      <div hidden$="[[!rightArrow]]" id="arrowRight"></div>
+    </div>
+
+  </template>
+
+  <script>
+
+    class CorkTag extends Polymer.Element {
+      static get is() { return 'cork-tag'; }
+
+      static get properties() {
+        return {
+          rightArrow: {
+            type: Boolean,
+            value: false
+          }
+        };
+      }
+
+      constructor() {
+        super();
+        this._setBorderWidth = this._setBorderWidth.bind(this);
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('resize', this._setBorderWidth);
+        this._setBorderWidth();
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('resize', this._setBorderWidth);
+      }
+
+      // update triangle size
+      _setBorderWidth() {
+        var h = this.$.label.offsetHeight;
+
+        var equHeight = (Math.sqrt(3)/2) * h;
+        var height = h/2;
+
+        this.$.arrowLeft.style.borderWidth = `${height}px ${equHeight}px ${height}px 0`;
+        this.$.arrowRight.style.borderWidth = `${height}px 0 ${height}px ${equHeight}px`;
+      }
+    }
+
+    window.customElements.define(CorkTag.is, CorkTag);
+  </script>
+</dom-module>
