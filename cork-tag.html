@@ -19,8 +19,11 @@
       }
 
       #label {
+        display: flex;
+        align-items: center;
         max-width: var(--cork-tag-max-width, initial);
         padding: 5px;
+        height: 100%;
         background-color: var(--cork-tag-color, var(--secondary-accent-color, #cccccc));
       }
 
@@ -32,13 +35,21 @@
         border-color: transparent var(--cork-tag-color, var(--secondary-accent-color, #cccccc)) transparent transparent;
       }
 
+      #root {
+        display:flex; 
+        align-items: center;
+        height: 100%;
+      }
+
     </style>
     
-    <div style="display:flex; align-items: center">
+    <div id="root">
       <div id="arrowLeftOuter" hidden$="[[rightArrow]]">
         <div id="arrowLeft" class="arrow"></div>
       </div>
-      <div id="label"><slot></slot></div>
+      <div id="label">
+        <span><slot></slot></span>
+      </div>
       <div id="arrowRightOuter" hidden$="[[!rightArrow]]">
         <div hidden$="[[!rightArrow]]" id="arrowRight" class="arrow"></div>
       </div>
@@ -62,13 +73,13 @@
 
       constructor() {
         super();
-        this._setBorderWidth = this.resize.bind(this);
+        this.resize = this.resize.bind(this);
       }
 
       connectedCallback() {
         super.connectedCallback();
         window.addEventListener('resize', this.resize);
-        this._setBorderWidth();
+        this.resize();
       }
 
       disconnectedCallback() {
