@@ -4,36 +4,44 @@
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
       }
 
-      .arrow-right {
+      .arrow {
+        border-style: solid;
         width: 0;
         height: 0;
-        border-style: solid;
-        border-width: 50px 0 50px 86.6px;
-        border-color: transparent transparent transparent var(--cork-tag-color, var(--secondary-accent-color, '#ccc'));
+        display: inline-block;
+      }
+
+      #arrowRight {
+        border-color: transparent transparent transparent var(--cork-tag-color, var(--secondary-accent-color, #cccccc));
       }
 
       #label {
+        max-width: var(--cork-tag-max-width, initial);
         padding: 5px;
-        background-color: var(--cork-tag-color, var(--secondary-accent-color, '#ccc'));
+        background-color: var(--cork-tag-color, var(--secondary-accent-color, #cccccc));
       }
 
-      .arrow-left {
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 50px 86.6px 50px 0;
-        border-color: transparent var(--cork-tag-color, var(--secondary-accent-color, '#ccc')) transparent transparent;
+      #arrowLeftOuter {
+        text-align: right;
+      }
+
+      #arrowLeft {
+        border-color: transparent var(--cork-tag-color, var(--secondary-accent-color, #cccccc)) transparent transparent;
       }
 
     </style>
     
-    <div style="display:flex">
-      <div hidden$="[[rightArrow]]" id="arrowLeft"></div>
+    <div style="display:flex; align-items: center">
+      <div id="arrowLeftOuter" hidden$="[[rightArrow]]">
+        <div id="arrowLeft" class="arrow"></div>
+      </div>
       <div id="label"><slot></slot></div>
-      <div hidden$="[[!rightArrow]]" id="arrowRight"></div>
+      <div id="arrowRightOuter" hidden$="[[!rightArrow]]">
+        <div hidden$="[[!rightArrow]]" id="arrowRight" class="arrow"></div>
+      </div>
     </div>
 
   </template>
@@ -72,10 +80,15 @@
       _setBorderWidth() {
         var h = this.$.label.offsetHeight;
 
-        var equHeight = (Math.sqrt(3)/2) * h;
-        var height = h/2;
+        var height = (h/2);
+        var equHeight = ((Math.sqrt(3)/2) * h) - (h * 0.30);
 
+        this.$.arrowLeftOuter.style.width = (h - (h * 0.30))+'px';
+        this.$.arrowLeftOuter.style.height = h+'px';
         this.$.arrowLeft.style.borderWidth = `${height}px ${equHeight}px ${height}px 0`;
+
+        this.$.arrowRightOuter.style.width = (h - (h * 0.30))+'px';
+        this.$.arrowRightOuter.style.height = h+'px';
         this.$.arrowRight.style.borderWidth = `${height}px 0 ${height}px ${equHeight}px`;
       }
     }
