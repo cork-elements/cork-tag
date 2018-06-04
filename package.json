@@ -1,0 +1,25 @@
+{
+  "name": "@ucd-lib/cork-tag",
+  "version": "1.0.0",
+  "description": "tag/label element",
+  "main": "cork-tag.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cork-elements/cork-tag.git"
+  },
+  "author": "jrmerz@ucdavis.edu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cork-elements/cork-tag/issues"
+  },
+  "homepage": "https://github.com/cork-elements/cork-tag#readme",
+  "dependencies": {
+    "@polymer/polymer": "^3.0.2"
+  }
+}
